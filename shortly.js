@@ -25,7 +25,12 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', 
 function(req, res) {
-  res.render('index');
+  console.log('request session ID: ', req.sessionID);
+  if (req.sessionID) {
+    res.render('index');
+  }
+  console.log('am i here?')
+  res.redirect('/views/login');
 });
 
 app.get('/create', 
