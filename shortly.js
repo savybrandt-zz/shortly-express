@@ -22,6 +22,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
+//added rout for login
+app.get('/login', 
+function(req, res) {
+  res.render('login');
+});
+
 
 app.get('/', 
 function(req, res) {
@@ -29,8 +35,7 @@ function(req, res) {
   if (req.sessionID) {
     res.render('index');
   }
-  console.log('am i here?')
-  res.redirect('/views/login');
+  res.redirect('/login');
 });
 
 app.get('/create', 

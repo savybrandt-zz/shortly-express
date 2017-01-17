@@ -9,7 +9,7 @@ var knex = require('knex')({
 var db = require('bookshelf')(knex);
 
 db.knex.schema.hasTable('urls').then(function(exists) {
-  console.log('urls')
+  console.log('urls');
   if (!exists) {
     db.knex.schema.createTable('urls', function (link) {
       link.increments('id').primary();
@@ -26,7 +26,7 @@ db.knex.schema.hasTable('urls').then(function(exists) {
 });
 
 db.knex.schema.hasTable('clicks').then(function(exists) {
-  console.log('clicks')
+  console.log('clicks');
   if (!exists) {
     db.knex.schema.createTable('clicks', function (click) {
       click.increments('id').primary();
@@ -43,7 +43,7 @@ db.knex.schema.hasTable('clicks').then(function(exists) {
 /************************************************************/
 
 db.knex.schema.hasTable('users').then(function(exists) {
-  console.log('users')
+  console.log('users');
   if (!exists) {
     db.knex.schema.createTable('users', function (user) {
       user.increments('id').primary();
