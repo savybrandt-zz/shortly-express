@@ -10,6 +10,7 @@ var User = require('./app/models/user');
 var Links = require('./app/collections/links');
 var Link = require('./app/models/link');
 var Click = require('./app/models/click');
+var session = require('express-session');
 
 var app = express();
 
@@ -31,7 +32,6 @@ function(req, res) {
 
 app.get('/', 
 function(req, res) {
-  console.log('request session ID: ', req.sessionID);
   if (req.sessionID) {
     res.render('index');
   }
@@ -40,11 +40,22 @@ function(req, res) {
 
 app.get('/create', 
 function(req, res) {
-  res.render('index');
+  if (req.sessionID) {
+    res.render('index');
+  }
+  res.redirect('/login');
+
 });
 
 app.get('/links', 
 function(req, res) {
+  //   if (req.sessionID) {
+  //   Links.reset().fetch().then(function(links) {
+  //     res.status(200).send(links.models);
+  //   });
+  // }
+  // res.redirect('/login');
+  console.log('you shall not pass: ', req.session);
   Links.reset().fetch().then(function(links) {
     res.status(200).send(links.models);
   });
