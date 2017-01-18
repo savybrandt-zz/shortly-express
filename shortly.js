@@ -40,6 +40,11 @@ app.post('/login', function(req, res) {
   });
 });
 
+app.get('/signup', 
+function(req, res) {
+  res.render('signup');
+});
+
 app.post('/signup', function(req, res) {
   console.log('username: ', req.body.username);
   console.log('password: ', req.body.password);
@@ -49,7 +54,7 @@ app.post('/signup', function(req, res) {
   }).then(function(user) {
     res.end(user.toString());
   }).then(res.redirect('/'));
-  res.end();
+  //res.end();
 });
 
 app.get('/', 
