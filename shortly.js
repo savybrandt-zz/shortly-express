@@ -22,43 +22,60 @@ app.use(bodyParser.json());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
+app.use(session({secret: 'SavyandSveyAreS00PERc00l', cookie: {maxAge: 60000}}));
 //added rout for login
 app.get('/login', 
 function(req, res) {
   res.render('login');
 });
 
+app.post('/login', function(req, res) {
+  User.where('username', req.body.username).fetch().then(function(user) {
+    if (!user) {
+      res.redirect('/login');
+    } else if (user.attributes.password === req.body.password) { //go back and encrypt
+      req.session.user = user;
+      res.redirect('/');
+    }
+  });
+});
+
+app.post('/signup', function(req, res) {
+  console.log('username: ', req.body.username);
+  console.log('password: ', req.body.password);
+  var user = new User({
+    'username': req.body.username,
+    'password': req.body.password
+  });
+});
 
 app.get('/', 
 function(req, res) {
-  if (req.sessionID) {
+  if (req.session.user) {
     res.render('index');
+  } else {
+    res.redirect('/login');
   }
-  res.redirect('/login');
 });
 
 app.get('/create', 
 function(req, res) {
-  if (req.sessionID) {
-    res.render('index');
+  if (req.session.user) {
+    res.render('create');
+  } else {
+    res.redirect('/login');
   }
-  res.redirect('/login');
-
 });
 
 app.get('/links', 
 function(req, res) {
-  //   if (req.sessionID) {
-  //   Links.reset().fetch().then(function(links) {
-  //     res.status(200).send(links.models);
-  //   });
-  // }
-  // res.redirect('/login');
-  console.log('you shall not pass: ', req.session);
-  Links.reset().fetch().then(function(links) {
-    res.status(200).send(links.models);
-  });
+  if (req.session.user) {
+    Links.reset().fetch().then(function(links) {
+      res.status(200).send(links.models);
+    });
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.post('/links', 

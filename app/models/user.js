@@ -8,8 +8,8 @@ var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   defaults: {
-    username: '',
-    password: ''
+    username: 'string', // string?
+    password: 'string'  // string?
   }
 });
 
