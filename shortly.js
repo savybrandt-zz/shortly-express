@@ -43,10 +43,13 @@ app.post('/login', function(req, res) {
 app.post('/signup', function(req, res) {
   console.log('username: ', req.body.username);
   console.log('password: ', req.body.password);
-  var user = new User({
+  Users.create({
     'username': req.body.username,
     'password': req.body.password
-  });
+  }).then(function(user) {
+    res.end(user.toString());
+  }).then(res.redirect('/'));
+  res.end();
 });
 
 app.get('/', 
